@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const session = require('express-session');
 
 const authController = require('./controllers/auth.js');
+const recipeController = require('./controllers/recipes.js')
+const ingredientController = require('./controllers/ingredients.js')
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 
@@ -19,7 +21,7 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -33,6 +35,10 @@ app.get('/', (req, res) => {
     user: req.session.user,
   });
 });
+app.use('/auth', authController);
+app.use('/recipes', recipeController);
+app.use('/ingredients', ingredientController);
+
 
 app.get('/vip-lounge', (req, res) => {
   if (req.session.user) {
@@ -42,8 +48,7 @@ app.get('/vip-lounge', (req, res) => {
   }
 });
 
-app.use('/auth', authController);
 
-app.listen(port, () => {
+app.listen(3000, () => {
   console.log(`The express app is ready on port ${port}!`);
 });
