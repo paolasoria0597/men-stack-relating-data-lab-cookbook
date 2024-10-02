@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add recipe</title>
+  </head>
+  <body>
+    <%-include('../partials/_navabar.ejs')%>
+    <h1>Welcome to My Recipes</h1>
+    <form action = "/recipes" method="POST">
+        <label for ="name">Name:</label>
+        <input id="name" type="text" name= "name" required/>
+        <br/>
+        <label for=" instructions">instructions:</label>
+        <textarea name=" instructions" id=" instructions" ></textarea>
+        <br />
+        <% ingredients.forEach(ingredient) => {%>
+            <input
+            type="checkbox"
+            id="<%= ingredient._id %>"
+            name="ingredients"
+            value="<%= ingredient._id %>"
+          />
+          <label for="<%= ingredient._id %>"><%= ingredient.name %></label>
+        <%}) %>
+    </form>
+  </body>
+</html>
